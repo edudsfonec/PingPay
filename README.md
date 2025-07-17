@@ -52,4 +52,3 @@ Para garantir a segurança, autenticação e documentação eficiente da API, es
 
 A API estará disponível em `http://localhost:8080` (ou na porta configurada).
 A documentação do Swagger estará acessível em `http://localhost:8080/swagger-ui.html`.
------

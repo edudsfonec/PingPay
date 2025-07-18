@@ -1,54 +1,56 @@
 # PingPay API
 
-Bem-vindo ao repositório da API PingPay\! Este projeto é uma solução de backend robusta, desenvolvida para gerenciar transações financeiras e contas de usuários, com foco em segurança, escalabilidade e facilidade de documentação.
+
+Welcome to the PingPay API repository\! This project is a robust backend solution designed to manage financial transactions and user accounts, with a strong focus on security, scalability, and ease of documentation.
 
 -----
 
-## 🛠️ Tecnologias e Ferramentas
+## 🛠️ Technologies and Tools
 
-* **Linguagem de Programação:** Java
-* **Framework:** Spring Boot
-* **Controle de Versão:** Git & GitHub
-* **Gerenciador de Dependências:** Maven
-
------
-
-## ⚙️ Dependências Implementadas
-
-Para garantir a segurança, autenticação e documentação eficiente da API, estas dependências foram cuidadosamente integradas:
-
-* ### Spring Security
-
-  Utilizado para configurar a **autenticação** e **autorização** na aplicação. O Spring Security oferece um framework poderoso e altamente configurável para proteger sua aplicação contra acesso não autorizado, garantindo que apenas usuários autenticados e com as permissões corretas possam acessar determinados recursos da API.
-
-* ### JWT (JSON Web Tokens)
-
-  Implementado para um mecanismo de autenticação **stateless** (sem estado). Após a autenticação bem-sucedida, um JWT é gerado e retornado ao cliente. Este token, assinado digitalmente, é usado para verificar a identidade do usuário em requisições subsequentes, eliminando a necessidade de sessões no servidor e proporcionando maior escalabilidade e desempenho para a API.
-
-* ### Swagger (OpenAPI)
-
-  Integrado para **documentação interativa** e **testes** da API. O Swagger gera automaticamente uma interface web que permite aos desenvolvedores e consumidores da API visualizar todos os *endpoints* disponíveis, seus métodos, parâmetros de requisição e modelos de resposta. Isso facilita significativamente a compreensão e o uso da API, acelerando o processo de desenvolvimento e integração.
+  * **Programming Language:** Java
+  * **Framework:** Spring Boot
+  * **Version Control:** Git & GitHub
+  * **Dependency Manager:** Maven
 
 -----
 
-## 🚀 Como Rodar o Projeto
 
-1.  **Clone o repositório:**
+## ⚙️ Implemented Dependencies
+
+To ensure the API's security, authentication, and efficient documentation, these dependencies have been carefully integrated:
+
+### Spring Security
+
+Used to configure **authentication** and **authorization** within the application. Spring Security offers a powerful and highly configurable framework to protect your application from unauthorized access, ensuring that only authenticated users with the correct permissions can access specific API resources.
+
+### JWT (JSON Web Tokens)
+
+Implemented for a **stateless** authentication mechanism. After successful authentication, a JWT is generated and returned to the client. This digitally signed token is used to verify the user's identity in subsequent requests, eliminating the need for server-side sessions and providing greater scalability and performance for the API.
+
+### Swagger (OpenAPI)
+
+Integrated for **interactive documentation** and API **testing**. Swagger automatically generates a web interface that allows developers and API consumers to view all available **endpoints**, their methods, request parameters, and response models. This significantly facilitates understanding and using the API, accelerating the development and integration process.
+
+-----
+
+## 🚀 How to Run the Project
+
+1.  **Clone the repository:**
     ```bash
     git clone https://github.com/edudsfonec/PingPay.git
     ```
-2.  **Navegue até o diretório do projeto:**
+2.  **Navigate to the project directory:**
     ```bash
     cd PingPay
     ```
-3.  **Construa o projeto com Maven:**
+3.  **Build the project with Maven:**
     ```bash
     mvn clean install
     ```
-4.  **Execute a aplicação:**
+4.  **Run the application:**
     ```bash
     mvn spring-boot:run
     ```
 
-A API estará disponível em `http://localhost:8080` (ou na porta configurada).
-A documentação do Swagger estará acessível em `http://localhost:8080/swagger-ui.html`.
+The API will be available at `http://localhost:8080` (or your configured port).
+The Swagger documentation will be accessible at `http://localhost:8080/swagger-ui.html`.

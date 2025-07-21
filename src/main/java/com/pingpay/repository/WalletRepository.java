@@ -11,9 +11,8 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet,Long> {
 
     @Query("SELECT w FROM WALLETS w WHERE w.email = :email")
-    Wallet FindByEmail(String email);
+    Optional<Wallet> findByEmail(String email);
 
     Optional<Wallet> findByCpf(Long cpf);
 
-    Optional<Wallet> findByEmail(String email);
 }

@@ -2,8 +2,10 @@ package com.pingpay.controller;
 
 import com.pingpay.config.SecurityConfig;
 import com.pingpay.dto.LoginResponseDTO;
+import com.pingpay.dto.WalletLoginDTO;
+import com.pingpay.dto.WalletRequestDTO;
+import com.pingpay.dto.WalletResponseDTO;
 import com.pingpay.service.TokenService;
-import com.pingpay.dto.WalletDTO;
 import com.pingpay.model.Wallet;
 import com.pingpay.service.WalletService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/wallets")
@@ -40,7 +44,7 @@ public class WalletController {
             @ApiResponse(responseCode = "401", description = "Invalid credentials"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity login(@RequestBody WalletDTO wallet) {
+    public ResponseEntity login(@RequestBody WalletLoginDTO wallet) {
         Authentication auth = authenticationManager.authenticate(walletService.authenticateLogin(wallet));
 
         String token = tokenService.generateToken((Wallet) auth.getPrincipal());
@@ -54,9 +58,9 @@ public class WalletController {
             @ApiResponse(responseCode = "400", description = "Invalid wallet data"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Wallet> createWallet(@RequestBody Wallet wallet) {
-        walletService.createWallet(wallet);
-        return ResponseEntity.status(HttpStatus.CREATED).body(wallet);
+    public ResponseEntity<WalletResponseDTO> createWallet(@RequestBody WalletRequestDTO wallet) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(walletService.createWallet(wallet));
     }
 
     @GetMapping("/all")
@@ -66,7 +70,7 @@ public class WalletController {
             @ApiResponse(responseCode = "404", description = "No wallets found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity getAllWallets() {
+    public List<WalletResponseDTO> getAllWallets() {
         return walletService.getAllWallets();
     }
 
@@ -77,8 +81,8 @@ public class WalletController {
             @ApiResponse(responseCode = "404", description = "Wallet not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Wallet> getWallet(@PathVariable String email) {
-        return walletService.getWallet(email);
+    public ResponseEntity<WalletResponseDTO> getWallet(@PathVariable String email) {
+        return ResponseEntity.ok(walletService.getWallet(email));
     }
 
     @DeleteMapping("/{email}")
@@ -89,7 +93,8 @@ public class WalletController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<String> deleteWallet(@PathVariable String email) {
-        return walletService.deleteWallet(email);
+        walletService.deleteWallet(email);
+        return ResponseEntity.ok("Wallet deleted successfully.");
     }
 
 }

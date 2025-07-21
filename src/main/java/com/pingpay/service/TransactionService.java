@@ -3,12 +3,12 @@ package com.pingpay.service;
 import com.pingpay.dto.TransactionRequestDTO;
 import com.pingpay.dto.TransactionsResponseDTO;
 import com.pingpay.exception.InvalidTransactionException;
+import com.pingpay.mapper.TransactionMapper;
 import com.pingpay.model.Transaction;
 import com.pingpay.model.Wallet;
 import com.pingpay.repository.TransactionRepository;
 import com.pingpay.repository.WalletRepository;
 import com.pingpay.enuns.WalletType;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,19 +22,19 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
-    private final ModelMapper modelMapper;
+    private final TransactionMapper transactionMapper;
 
-    public TransactionService(TransactionRepository TransactionRepository, WalletRepository walletRepository, ModelMapper modelMapper) {
+    public TransactionService(TransactionRepository TransactionRepository, WalletRepository walletRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = TransactionRepository;
         this.walletRepository = walletRepository;
-        this.modelMapper = modelMapper;
+        this.transactionMapper = transactionMapper;
    }
 
     @Transactional
     public Transaction create(TransactionRequestDTO transaction) {
         validate(transaction);
 
-        Transaction newTransaction = modelMapper.map(transaction, Transaction.class);
+        Transaction newTransaction = transactionMapper.mapToEntity(transaction);
 
         transactionRepository.save(newTransaction);
 
@@ -56,7 +56,7 @@ public class TransactionService {
         }
         return transactions.stream()
                 .map(transaction -> {
-                    TransactionsResponseDTO dto = modelMapper.map(transaction, TransactionsResponseDTO.class);
+                    TransactionsResponseDTO dto = transactionMapper.mapToResponse(transaction);
 
                     String payerName = walletRepository.findById(transaction.getPayer())
                             .map(Wallet::getFullName)

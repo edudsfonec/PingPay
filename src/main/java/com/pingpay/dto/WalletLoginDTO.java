@@ -1,10 +1,10 @@
 package com.pingpay.dto;
 
-public class WalletDTO {
+public class WalletLoginDTO {
     private String email;
     private String password;
 
-    public WalletDTO(String email, String password) {
+    public WalletLoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }

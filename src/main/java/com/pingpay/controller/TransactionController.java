@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,12 +48,8 @@ public class TransactionController {
             @ApiResponse(responseCode = "404", description = "No transactions found for the given email"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<TransactionsResponseDTO>> findByEmail(@PathVariable("email") String email) {
-        List<TransactionsResponseDTO> transactions = transactionService.history(email);
-        if (transactions.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(transactions);
+    public List<TransactionsResponseDTO> findTransactionsByEmail(@PathVariable("email") String email) {
+        return transactionService.history(email);
     }
 
     @GetMapping

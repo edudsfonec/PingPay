@@ -10,6 +10,7 @@ import com.pingpay.repository.TransactionRepository;
 import com.pingpay.repository.WalletRepository;
 import com.pingpay.enuns.WalletType;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -79,6 +80,9 @@ public class TransactionService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wallet not found from email: %s".formatted(email)));
         List<Transaction> transactions = transactionRepository.findTransactionsByPayer(wallet.getId());
 
+        if (transactions.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No transactions found for wallet with email: %s".formatted(email));
+        }
         return transactions.stream()
                 .map(transaction -> {
                     String payerName = wallet.getFullName();

@@ -24,7 +24,7 @@ public class SecurityConfig {
     public static final String SECURITY = "bearerAuth";
 
     @Autowired
-    SecurityFilter securityFilter;
+    SecurityFilterConfig securityFilterConfig;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,8 +35,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/wallets/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/wallets/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/transactions").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/transactions").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/wallets/all").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/doc/**").permitAll()
                         .requestMatchers("/v2/api-docs",
@@ -50,7 +48,7 @@ public class SecurityConfig {
                                 "/api-docs/**",
                                 "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(securityFilterConfig, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

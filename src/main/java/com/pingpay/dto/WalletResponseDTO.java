@@ -2,13 +2,15 @@ package com.pingpay.dto;
 
 public class WalletResponseDTO {
 
+    private Long id;
     private String fullName;
     private Long cpf;
     private String email;
     private String type;
     private String balance;
 
-    public WalletResponseDTO(String fullName, Long cpf, String email, String type, String balance) {
+    public WalletResponseDTO(Long id, String fullName, Long cpf, String email, String type, String balance) {
+        this.id = id;
         this.fullName = fullName;
         this.cpf = cpf;
         this.email = email;
@@ -38,6 +40,14 @@ public class WalletResponseDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getType() {

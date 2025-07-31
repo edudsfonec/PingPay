@@ -3,6 +3,10 @@ package com.pingpay.service;
 import com.pingpay.dto.WalletLoginDTO;
 import com.pingpay.dto.WalletRequestDTO;
 import com.pingpay.dto.WalletResponseDTO;
+import com.pingpay.exception.NoWalletsFoundException;
+import com.pingpay.exception.PasswordNotValidException;
+import com.pingpay.exception.WalletFieldNotValidException;
+import com.pingpay.exception.WalletNotFoundByEmailException;
 import com.pingpay.mapper.WalletMapper;
 import com.pingpay.model.Wallet;
 import com.pingpay.repository.WalletRepository;
@@ -56,21 +60,21 @@ public class WalletService implements UserDetailsService {
 
     public WalletResponseDTO getWallet(String email) {
         Wallet wallet = walletRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wallet not found."));
+                .orElseThrow(() -> new WalletNotFoundByEmailException(email));
         return walletMapper.mapToResponse(wallet);
 
     }
 
     public void deleteWallet(String email) {
         Wallet wallet = walletRepository.findByEmail(email)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wallet not found."));
+                .orElseThrow(()-> new WalletNotFoundByEmailException(email));
         walletRepository.delete(wallet);
     }
 
     public List<WalletResponseDTO> getAllWallets() {
         List<Wallet> wallets = walletRepository.findAll();
         if (wallets.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No wallets found.");
+            throw new NoWalletsFoundException();
         }
         return walletMapper.mapToResponseList(wallets);
     }
@@ -78,25 +82,26 @@ public class WalletService implements UserDetailsService {
     private void validateUniqueFields(WalletRequestDTO newWallet) {
         Optional<Wallet> existingWalletByCpf = walletRepository.findByCpf(newWallet.getCpf());
         if (existingWalletByCpf.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "CPF already registered for another wallet.");
+            throw new WalletFieldNotValidException("CPF or CNPJ");
         }
+//        ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "CPF already registered for another wallet.")
 
         Optional<Wallet> existingWalletByEmail = walletRepository.findByEmail(newWallet.getEmail());
         if (existingWalletByEmail.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email already registered for another wallet.");
+            throw new WalletFieldNotValidException("Email");
         }
     }
 
     private void validatePassword(String password) {
         if (password == null || password.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password cannot be empty.");
+            throw new PasswordNotValidException();
         }
 
         String passwordRegex = "^(?=.*\\d).{6,}$";
         Pattern pattern = Pattern.compile(passwordRegex);
 
         if(!pattern.matcher(password).matches()){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is not valid.");
+            throw new PasswordNotValidException();
         }
     }
 

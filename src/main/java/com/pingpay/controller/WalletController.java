@@ -42,6 +42,7 @@ public class WalletController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login successful, token returned"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity login(@RequestBody WalletLoginDTO wallet) {
@@ -56,6 +57,7 @@ public class WalletController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Wallet created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid wallet data"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<WalletResponseDTO> createWallet(@RequestBody WalletRequestDTO wallet) {
@@ -68,6 +70,7 @@ public class WalletController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Wallets retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "No wallets found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public List<WalletResponseDTO> getAllWallets() {
@@ -79,6 +82,7 @@ public class WalletController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Wallet retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Wallet not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<WalletResponseDTO> getWallet(@PathVariable String email) {
@@ -90,6 +94,7 @@ public class WalletController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Wallet deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Wallet not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<String> deleteWallet(@PathVariable String email) {

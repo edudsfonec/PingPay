@@ -34,7 +34,8 @@ public class TransactionController {
             @ApiResponse(responseCode = "201", description = "Transaction created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid transaction request"),
             @ApiResponse(responseCode = "404", description = "Payer or payee wallet not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action")
     })
     public Transaction createTransaction(@RequestBody TransactionRequestDTO transaction) {
         return transactionService.create(transaction);
@@ -46,7 +47,9 @@ public class TransactionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Transaction history retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "No transactions found for the given email"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action")
+
     })
     public List<TransactionsResponseDTO> findTransactionsByEmail(@PathVariable("email") String email) {
         return transactionService.history(email);
@@ -57,6 +60,7 @@ public class TransactionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Transactions retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "No transactions found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to perform this action"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public List<TransactionsResponseDTO> getAllTransactions() {
